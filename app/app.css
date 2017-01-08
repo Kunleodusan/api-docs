@@ -1,0 +1,53 @@
+/* app css stylesheet */
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li + li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+.background-black{
+  color: #fff;
+  background-color: #212121;
+    border: solid 1px;
+    border-radius: 5px;
+    padding: 5px;
+}
+.background-url{
+  color: #fff;
+  background-color: #a32289;
+  font-weight: bold;
+    border: solid 1px;
+    border-radius: 5px;
+    padding: 5px;
+}
+.background-black:hover{
+  color: #212121;
+  background-color: #fff;
+}.background-black:focus{
+     color: #ffffff;
+     background-color: #212121;
+ }
+pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }
