@@ -281,7 +281,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
         $scope.api=data;
     });*/
   //$scope.apiResource='http://'+window.location.host+'/mfp/mfp_backend/api.json';
-  $scope.apiResource='http://64.64.3.65/sudabelt/backend/mfp_backend/api.json';
+  $scope.apiResource='http://iqubeglobal.com/sudabelt/backend/mfp_backend/api.json';
 
   $scope.endpoints= function (obj) {
       return Object.keys(obj).length;
