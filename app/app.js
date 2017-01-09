@@ -280,8 +280,8 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
         //console.log(data);
         $scope.api=data;
     });*/
-  $scope.apiResource='http://'+window.location.host+'/mfp/mfp_backend/api.json';
-  //$scope.apiResource='http://localhost/mfp/mfp_backend/api.json';
+  //$scope.apiResource='http://'+window.location.host+'/mfp/mfp_backend/api.json';
+  $scope.apiResource='http://64.64.3.65/sudabelt/backend/mfp_backend/api.json';
 
   $scope.endpoints= function (obj) {
       return Object.keys(obj).length;
