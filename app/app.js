@@ -135,37 +135,11 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
         }
     };
 
-    /* jshint ignore:end */
-}).filter('ParseJson',['$sce',function ($sce) {
-    return function(val) {
-        return $sce.trustAsHtml(val);
-    };
-/*To be fixed*/
-}]).filter('Prettify',['$sce',function ($sce) {
-    return function syntaxHighlight(json) {
-        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-            var cls = 'number';
-            if (/^"/.test(match)) {
-                if (/:$/.test(match)) {
-                    cls = 'key';
-                } else {
-                    cls = 'string';
-                }
-            } else if (/true|false/.test(match)) {
-                cls = 'boolean';
-            } else if (/null/.test(match)) {
-                cls = 'null';
-            }
-            return '<span class="' + cls + '">' + match + '</span>';
-        });
-    };
-
-    return $sce.trustAsHtml(syntaxHighlight);
-}]).controller('BaseController',['$scope','$rootScope','$http','api',function ($scope,$rootScope,$http,api) {
+}).controller('BaseController',['$scope','$rootScope','$http','api',function ($scope,$rootScope,$http,api) {
     $rootScope.$on("ApiData",function () {
         $scope.api=$rootScope.api;
     });
+
   $scope.apiResource='http://path/to/api';
 
   $scope.endpoints= function (obj) {
@@ -189,28 +163,6 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
       //alert('make request');
   };
   $scope.RequestResponse=function (json) {
-      //return JSON.stringify(json, undefined, 2);
-      // JSON.stringify(obj, null, 2);
-      json = typeof json !== 'undefined' ? json : {};
-
-      if (typeof json != 'string') {
-          json = JSON.stringify(json, undefined, 2);
-      }
-      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-          var cls = 'number';
-          if (/^"/.test(match)) {
-              if (/:$/.test(match)) {
-                  cls = 'key';
-              } else {
-                  cls = 'string';
-              }
-          } else if (/true|false/.test(match)) {
-              cls = 'boolean';
-          } else if (/null/.test(match)) {
-              cls = 'null';
-          }
-          return '<span class="' + cls + '">' + match + '</span>';
-      });
+      return JSON.stringify(json, undefined, 2);
   }
 }]);

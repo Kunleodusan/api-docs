@@ -82,8 +82,12 @@
                                           </div>
                                       </td>
                                       <td ng-if="endpoint.result" class="success col-md-6">
-                                          <div ng-bind-html="RequestResponse(endpoint.result) | ParseJson">
+
+                                          <div>
+                                              <pre>{{RequestResponse(endpoint.result)}}</pre>
                                           </div>
+                                          <!--<div ng-bind-html="RequestResponse(endpoint.result)">
+                                          </div>-->
                                       </td>
                                   </tr>
                               </table>
