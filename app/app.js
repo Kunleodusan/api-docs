@@ -34,6 +34,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
                 method: obj.method,
                 headers: {
                     authorization: authData
+                    //Origin: 'http://localhost'
                 },
                 params:obj.input
             });
@@ -162,126 +163,10 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 
     return $sce.trustAsHtml(syntaxHighlight);
 }]).controller('BaseController',['$scope','$rootScope','$http','api',function ($scope,$rootScope,$http,api) {
-  /*$scope.app={
-    name: 'MFP',
-    version: 1.0,
-    baseUrl:'http://localhost/daddy banke/weblocks-admin/public/api/'
-  };*/
     $rootScope.$on("ApiData",function () {
         $scope.api=$rootScope.api;
     });
-  /*Replace with Get request from server*/
-  /*$scope.api={
-
-      name: 'MFP',
-      version: 1.0,
-      baseUrl:'http://localhost/daddy banke/weblocks-admin/public/api/',
-
-      data:{
-          user: {
-              name: 'User',
-              endpoints:
-              {
-                  login:{
-                      url:'http://localhost/response.json',
-                      name:'Authenticate User',
-                      Description:'Authenticate User to get needed profile information',
-                      method:'GET',
-                      status:false,
-                      params:{
-                          email:'email',
-                          password:'password'
-                      }
-                  },
-                  register:{
-                      url:'category/1/products',
-                      name:'Register User',
-                      Description:'Register a new user',
-                      method:'GET',
-                      status:false,
-                      params:{
-                          email:'email',
-                          name: 'text',
-                          password:'text',
-                          number:'number'
-                      }
-                  },
-                  password:{
-                      url:'category',
-                      name:'Reset Password',
-                      Description:'Reset Password for a user',
-                      method:'POST',
-                      status:false,
-                      params:{
-                          email: 'email',
-                          phone:'text'
-                      }
-                  }
-              }
-          },
-          manager: {
-              name: 'Manager',
-              endpoints:
-              {
-                  login:{
-                      url:'',
-                      name:'Authenticate User',
-                      Description:'Authenticate User to get needed profile information',
-                      method:'GET',
-                      status:false,
-                      params:{
-                          name: 'text',
-                          password:'text',
-                          number:'number'
-                      }
-                  },
-                  register:{
-                      url:'',
-                      name:'Authenticate User',
-                      Description:'Authenticate User to get needed profile information',
-                      method:'GET',
-                      status:false,
-                      params:{
-                          name: 'text',
-                          password:'text',
-                          number:'number'
-                      }
-                  },
-                  password:{
-                      url:'',
-                      name:'Authenticate User',
-                      Description:'Authenticate User to get needed profile information',
-                      method:'GET',
-                      status:false,
-                      params:{
-                          name: 'text',
-                          password:'text',
-                          number:'number'
-                      }
-                  },
-                  addUser:{
-                      url:'',
-                      name:'Authenticate User',
-                      Description:'Authenticate User to get needed profile information',
-                      method:'GET',
-                      status:false,
-                      params:{
-                          name: 'text',
-                          password:'text',
-                          number:'number'
-                      }
-                  }
-              }
-          }
-      }
-
-  };*/
-    /*$http.get('http://localhost/api.json').then(function (data) {
-        //console.log(data);
-        $scope.api=data;
-    });*/
-  //$scope.apiResource='http://'+window.location.host+'/mfp/mfp_backend/api.json';
-  $scope.apiResource='http://iqubeglobal.com/sudabelt/backend/mfp_backend/api.json';
+  $scope.apiResource='http://path/to/api';
 
   $scope.endpoints= function (obj) {
       return Object.keys(obj).length;
