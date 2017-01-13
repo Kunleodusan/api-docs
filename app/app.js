@@ -16,15 +16,13 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
     this.call=function (obj,api) {
         var authData="Basic "+Base64.encode(api.clientId+":"+api.clientSecret);
         var endpoint;
-        //console.log(api);
-        //console.log(obj.pathValue);
+        console.log(obj);
         if(typeof obj.paths!=="undefined"){
             var str=obj.url;
-            //console.log(typeof str);
             angular.forEach(obj.pathValue,function (val,key) {
-                endpoint=str.replace(":"+key,obj.pathValue[key]);
+                str=str.replace(":"+key,obj.pathValue[key]);
             });
-            //console.log(obj.url);
+            endpoint=str;
         }
         else endpoint=obj.url;
 
@@ -50,7 +48,46 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
                 data:obj.input
             });
         }
+    };
+    /*Upload file via angular js*/
+    this.upload=function (obj,api,file) {
 
+        var authData="Basic "+Base64.encode(api.clientId+":"+api.clientSecret);
+        var endpoint;
+
+        if(typeof obj.paths!=="undefined"){
+            var str=obj.url;
+            angular.forEach(obj.pathValue,function (val,key) {
+                endpoint=str.replace(":"+key,obj.pathValue[key]);
+            });
+        }
+        else endpoint=obj.url;
+
+        if(obj.method=='UPLOAD'){
+            console.log(obj);
+
+            var form=new FormData();
+
+            angular.forEach(obj.input,function (val,key) {
+                    form.append(key,val);
+            });
+            /*Attached files*/
+            angular.forEach(obj.params,function (val,key) {
+                if(val=='file') {
+                    form.append(key, file[0]);
+                }
+            });
+            //form.append('image', file[0]);
+            console.log(form);
+
+            return $http.post(api.baseUrl+endpoint,form,{
+                transformRequest: angular.identity,
+                headers: {
+                    'Content-Type': undefined,
+                    authorization: authData
+                }
+            });
+        }
     }
 }]).factory('Base64', function () {
     /* jshint ignore:start */
@@ -136,15 +173,17 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
     };
 
 }).controller('BaseController',['$scope','$rootScope','$http','api',function ($scope,$rootScope,$http,api) {
+
     $rootScope.$on("ApiData",function () {
         $scope.api=$rootScope.api;
     });
 
-  $scope.apiResource='http://path/to/api';
+  $scope.apiResource=$('body').attr('data-url');
 
   $scope.endpoints= function (obj) {
       return Object.keys(obj).length;
   };
+
     $scope.LoadApi=function () {
         $scope.api=null;
         $http.get($scope.apiResource).then(function (result) {
@@ -152,17 +191,53 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
             $scope.api=result.data;
         });
     };
+    /*Deprecated with directive*/
+    $scope.filesChanged=function (elm) {
+        console.log(elm);
+        $scope.files=elm.files;
+        $scope.$apply();
+        console.log($scope.files);
+    };
+
   $scope.MakeRequest=function (obj) {
-      api.call(obj,$scope.api).success(function (result) {
-          obj.result=result;
-          obj.status=false;
-      }).error(function (error) {
-          obj.result=error;
-      });
-      //var input=$()
-      //alert('make request');
+
+      if(obj.method!='UPLOAD') {
+          api.call(obj, $scope.api).success(function (result) {
+              obj.result = result;
+              obj.status = false;
+          }).error(function (error) {
+              obj.result = error;
+          });
+      }
+
+      /*When a file upload occurs*/
+
+      else{
+          console.log(obj);
+          var file = obj.uploadData;//$scope.files[0];
+          //console.log($scope.files);
+          api.upload(obj,$scope.api,file).success(function (result) {
+              obj.result = result;
+              obj.status = false;
+          }).error(function (error) {
+              obj.result = error;
+          });
+      }
   };
+
   $scope.RequestResponse=function (json) {
       return JSON.stringify(json, undefined, 2);
   }
+}]).directive('fileInput', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+
+            element.bind('change', function(){
+                $parse(attrs.fileInput)
+                .assign(scope,element[0].files);
+                scope.$apply();
+            });
+        }
+    }
 }]);

@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="app.css">
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
-<body>
+<body data-url="http://localhost/EXTERNAL/mfp/mfp_backend/public/api/v1">
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
@@ -74,8 +74,19 @@
                                           </div><br>
                                           <div ng-repeat="(param,type) in endpoint.params">
                                               <label for="{{param}}">{{param}}</label>
-                                              <input type="{{type}}" class="form-control" id="{{param}}" ng-model="endpoint.input[param]">
-                                          </div><br>
+                                              <div ng-if="type=='file'">
+
+                                                  <!--onchange="angular.element(this).scope().filesChanged(this)"-->
+                                                  <input type="{{type}}"
+                                                         file-input="endpoint.uploadData" class="form-control" id="{{param}}">
+                                                  <li class="list-group-item" ng-repeat="file in files">{{file.name}}</li>
+
+                                              </div>
+                                              <div ng-if="type!=='file'">
+                                                  <input type="{{type}}" class="form-control" id="{{param}}" ng-model="endpoint.input[param]">
+                                              </div>
+                                          </div>
+                                          <br>
                                           <div class="form-group">
                                               <button type="button" class="btn btn-primary" ng-click="MakeRequest(endpoint)">{{endpoint.method}}</button>
                                               <p class="btn btn-success" ng-if="endpoint.status">Sending</p>
