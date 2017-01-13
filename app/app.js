@@ -74,7 +74,9 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
             /*Attached files*/
             angular.forEach(obj.params,function (val,key) {
                 if(val=='file') {
-                    form.append(key, file[0]);
+                    if(typeof file !=='undefined'){
+                        form.append(key, file[0]);
+                    }
                 }
             });
             //form.append('image', file[0]);
