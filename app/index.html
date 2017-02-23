@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="app.css">
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
-<body data-url="http://localhost/EXTERNAL/mfp/mfp_backend/public/api/v1">
+<body data-url="http://path/to/api.json">
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
@@ -46,6 +46,20 @@
 
   </div>
 
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <ul class="list-group" ng-if="api.updates">
+                  <li class="list-group-item" ng-repeat="(date,updateData) in api.updates">
+                      <ul class="list-group">
+                        <li class="list-group-item list-group-item-heading list-group-item-success"><b>{{date}}</b></li>
+                        <li class="list-group-item" ng-repeat="text in updateData">{{text}}</li>
+                      </ul>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
   <div class="container">
       <div class="row">
           <div class="col-md-12">
