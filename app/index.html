@@ -20,7 +20,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  <!--<div ng-view></div>-->
+  <!--<div  ng-view></div>-->
 
   <!--<ul class="menu">
     <li><a href="#!/view1">view1</a></li>
@@ -40,6 +40,10 @@
               <div class="col-md-6">
                   <br>
                   <button type="button" class="btn btn-danger" ng-click="LoadApi()">Load API</button>
+              </div>
+              <div class="col-md-12">
+                  <b>{{api.name}} Description:</b>
+                  <div>{{api.description}}</div>
               </div>
           </div>
       </div>
@@ -109,7 +113,7 @@
                                       <td ng-if="endpoint.result" class="success col-md-6">
 
                                           <div>
-                                              <pre>{{RequestResponse(endpoint.result)}}</pre>
+                                              <pre>{{endpoint.result | json}}</pre>
                                           </div>
                                           <!--<div ng-bind-html="RequestResponse(endpoint.result)">
                                           </div>-->

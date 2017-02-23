@@ -204,10 +204,10 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   $scope.MakeRequest=function (obj) {
 
       if(obj.method!='UPLOAD') {
-          api.call(obj, $scope.api).success(function (result) {
+          api.call(obj, $scope.api).then(function (result) {
               obj.result = result;
               obj.status = false;
-          }).error(function (error) {
+          },function (error) {
               obj.result = error;
           });
       }
@@ -218,10 +218,10 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
           console.log(obj);
           var file = obj.uploadData;//$scope.files[0];
           //console.log($scope.files);
-          api.upload(obj,$scope.api,file).success(function (result) {
+          api.upload(obj,$scope.api,file).then(function (result) {
               obj.result = result;
               obj.status = false;
-          }).error(function (error) {
+          },function (error) {
               obj.result = error;
           });
       }
