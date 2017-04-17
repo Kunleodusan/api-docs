@@ -1,17 +1,8 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
-  'ngRoute',
-  'myApp.view1',
-  'myApp.view2',
-  'myApp.version'
-]).
-config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-  $locationProvider.hashPrefix('!');
-
-  $routeProvider.otherwise({redirectTo: '/view1'});
-}]).service('api',['$http','Base64',function ($http,Base64) {
+angular.module('myApp', [])
+    .service('api',['$http','Base64',function ($http,Base64) {
 
     this.call=function (obj,api) {
         var authData="Basic "+Base64.encode(api.clientId+":"+api.clientSecret);
@@ -69,9 +60,10 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
             var form=new FormData();
 
             angular.forEach(obj.input,function (val,key) {
-                    form.append(key,val);
+                form.append(key,val);
             });
             /*Attached files*/
+            console.log(obj);
             angular.forEach(obj.params,function (val,key) {
                 if(val=='file') {
                     if(typeof file !=='undefined'){
@@ -91,7 +83,8 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
             });
         }
     }
-}]).factory('Base64', function () {
+}])
+    .factory('Base64', function () {
     /* jshint ignore:start */
 
     var keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
@@ -179,7 +172,7 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
     $rootScope.$on("ApiData",function () {
         $scope.api=$rootScope.api;
     });
-
+    //set api resource link.
   $scope.apiResource=$('body').attr('data-url');
 
   $scope.endpoints= function (obj) {

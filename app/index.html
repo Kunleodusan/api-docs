@@ -84,33 +84,42 @@
                               <table class="table collapse col-md-12" id="{{key+'-'+rest}}">
                                   <tr>
                                       <td class="info col-md-6">
+
                                           <h4>{{endpoint.name}}</h4>
                                           <p>{{endpoint.Description}}</p>
                                           <p class="background-url">{{api.baseUrl+endpoint.url}}</p>
+
+                                          <!--Path input-->
                                           <div ng-repeat="(path,type) in endpoint.paths">
                                               <label for="{{path}}">{{path}}</label>
                                               <input type="{{type}}" class="form-control" id="{{path}}" ng-model="endpoint.pathValue[path]">
                                           </div><br>
+                                          <!--Param input-->
                                           <div ng-repeat="(param,type) in endpoint.params">
                                               <label for="{{param}}">{{param}}</label>
-                                              <div ng-if="type=='file'">
 
+                                              <!--File input-->
+                                              <div ng-if="type=='file'">
                                                   <!--onchange="angular.element(this).scope().filesChanged(this)"-->
                                                   <input type="{{type}}"
                                                          file-input="endpoint.uploadData" class="form-control" id="{{param}}">
                                                   <li class="list-group-item" ng-repeat="file in files">{{file.name}}</li>
-
                                               </div>
+                                              <!--Not a file input-->
                                               <div ng-if="type!=='file'">
                                                   <input type="{{type}}" class="form-control" id="{{param}}" ng-model="endpoint.input[param]">
                                               </div>
                                           </div>
                                           <br>
+                                          <!--Send button-->
                                           <div class="form-group">
                                               <button type="button" class="btn btn-primary" ng-click="MakeRequest(endpoint)">{{endpoint.method}}</button>
-                                              <p class="btn btn-success" ng-if="endpoint.status">Sending</p>
+                                              <p class="btn btn-success" ng-if="endpoint.status">Making Request</p>
                                           </div>
+
                                       </td>
+
+                                      <!--results-->
                                       <td ng-if="endpoint.result" class="success col-md-6">
 
                                           <div>
@@ -140,10 +149,5 @@
   <script src="bower_components/angular/angular.min.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="app.js"></script>
-  <script src="view1/view1.js"></script>
-  <script src="view2/view2.js"></script>
-  <script src="components/version/version.js"></script>
-  <script src="components/version/version-directive.js"></script>
-  <script src="components/version/interpolate-filter.js"></script>
 </body>
 </html>
