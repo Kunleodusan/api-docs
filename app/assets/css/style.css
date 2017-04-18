@@ -386,6 +386,11 @@ input:focus {
     background-color: #fff;
     border-color: #fff;
 }
+.btn-danger{
+    color: #212121;
+    background-color: #ff706f;
+    border-color: #ff706f;
+}
 .btn{
     display: inline-block;
     padding: 6px 12px;

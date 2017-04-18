@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/prettify.css">
 </head>
-<body data-url="http://workhost/mfp/mfp_backend/public/api">
+<body data-url="http://path/to/api.json">
 <header>
     <div class="container">
         <h2 class="docs-header"> {{api.name}} - Documentation</h2>
@@ -74,7 +74,9 @@
                     <!--Path input-->
                     <div ng-repeat="(path,type) in endpoint.paths">
                         <label for="{{path}}">{{path}}</label>
-                        <input type="{{type}}" class="form-control" id="{{path}}" ng-model="endpoint.pathValue[path]">
+                        <div>
+                            <input type="{{type}}" class="form-control" id="{{path}}" ng-model="endpoint.pathValue[path]">
+                        </div>
                     </div><br>
                     <!--Param input-->
                     <div ng-repeat="(param,type) in endpoint.params">
@@ -83,9 +85,12 @@
                         <!--File input-->
                         <div ng-if="type=='file'">
                             <!--onchange="angular.element(this).scope().filesChanged(this)"-->
-                            <input type="{{type}}"
+                            <!--<input type="{{type}}"
                                    file-input="endpoint.uploadData" class="form-control" id="{{param}}">
-                            <p class="list-group-item" ng-repeat="file in files">{{file.name}}</p>
+                            <p class="list-group-item" ng-repeat="file in files">{{file.name}}</p>-->
+
+                            <div class="btn btn-danger" ngf-select ng-model="endpoint.input[param]" name="file">Select</div>
+                                Preview: <img width="70px" ngf-thumbnail="endpoint.input[param] || ''">
                         </div>
                         <!--Not a file input-->
                         <div ng-if="type!=='file'">
@@ -133,12 +138,7 @@
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>-->
 <script src="bower_components/angular/angular.min.js"></script>
-<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
 <script src="app.js"></script>
-<script src="view1/view1.js"></script>
-<script src="view2/view2.js"></script>
-<script src="components/version/version.js"></script>
-<script src="components/version/version-directive.js"></script>
-<script src="components/version/interpolate-filter.js"></script>
 </body>
 </html>

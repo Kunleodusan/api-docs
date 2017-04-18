@@ -1,8 +1,8 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [])
-    .service('api',['$http','Base64',function ($http,Base64) {
+angular.module('myApp', ['ngFileUpload'])
+    .service('api',['$http','Base64','Upload',function ($http,Base64,Upload) {
 
     this.call=function (obj,api) {
         var authData="Basic "+Base64.encode(api.clientId+":"+api.clientSecret);
@@ -37,6 +37,18 @@ angular.module('myApp', [])
                     authorization: authData
                 },
                 data:obj.input
+            });
+        }
+
+        if(obj.method=='UPLOAD'){
+            console.log('api upload');
+            return Upload.upload({
+                url: api.baseUrl+endpoint,
+                data: obj.input,
+                method: 'POST',
+                headers: {
+                    authorization: authData
+                }
             });
         }
     };
@@ -167,7 +179,8 @@ angular.module('myApp', [])
         }
     };
 
-}).controller('BaseController',['$scope','$rootScope','$http','api',function ($scope,$rootScope,$http,api) {
+})
+    .controller('BaseController',['$scope','$rootScope','$http','api',function ($scope,$rootScope,$http,api) {
 
     $rootScope.$on("ApiData",function () {
         $scope.api=$rootScope.api;
@@ -196,28 +209,27 @@ angular.module('myApp', [])
 
   $scope.MakeRequest=function (obj) {
 
-      if(obj.method!='UPLOAD') {
+      //if(obj.method!='UPLOAD') {
           api.call(obj, $scope.api).then(function (result) {
               obj.result = result;
               obj.status = false;
           },function (error) {
               obj.result = error;
           });
-      }
+      //}
 
       /*When a file upload occurs*/
 
-      else{
+      /*else{
           console.log(obj);
-          var file = obj.uploadData;//$scope.files[0];
-          //console.log($scope.files);
+          var file = obj.uploadData;
           api.upload(obj,$scope.api,file).then(function (result) {
               obj.result = result;
               obj.status = false;
           },function (error) {
               obj.result = error;
           });
-      }
+      }*/
   };
 
   $scope.RequestResponse=function (json) {
